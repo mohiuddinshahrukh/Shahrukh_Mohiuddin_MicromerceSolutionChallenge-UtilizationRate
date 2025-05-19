@@ -1,8 +1,4 @@
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef,
-} from "material-react-table";
+import { MaterialReactTable, useMaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
 import sourceData from "./source-data.json";
 import type { SourceDataType, TableDataType } from "./types";
@@ -20,12 +16,14 @@ import type { SourceDataType, TableDataType } from "./types";
  * @prop {number} netEarningsPrevMonth - The net earnings for the previous month.
  */
 
-const tableData: TableDataType[] = (
-  sourceData as unknown as SourceDataType[]
-).map((dataRow, index) => {
+const tableData: TableDataType[] = (sourceData as unknown as SourceDataType[]).map((dataRow, index) => {
   const person = `${dataRow?.employees?.firstname} - ...`;
 
+  /* Add serial number to know how many instances i have and which instance i am currently looking at.
+   This also helps in sorting the instances asc/desc depending on how i want to look at the data/ show it to an interested party*/
+   
   const row: TableDataType = {
+    serialNumber: index+1,
     person: `${person}`,
     past12Months: `past12Months ${index} placeholder`,
     y2d: `y2d ${index} placeholder`,
@@ -41,6 +39,10 @@ const tableData: TableDataType[] = (
 const Example = () => {
   const columns = useMemo<MRT_ColumnDef<TableDataType>[]>(
     () => [
+      {
+        accessorKey: "serialNumber",
+        header: "Serial #",
+      },
       {
         accessorKey: "person",
         header: "Person",

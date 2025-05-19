@@ -128,6 +128,7 @@ export type SourceDataType = {
 
 // Type for Table Column and Row Data
 export type TableDataType = {
+  serialNumber: number;
   person: string;
   past12Months: string;
   y2d: string;
