@@ -99,6 +99,7 @@ type Employee = {
 type ExternalEmployee = Employee & {
   salutation?: string;
   email?: string;
+  name?: string;
 };
 
 type EmploymentStatus = {

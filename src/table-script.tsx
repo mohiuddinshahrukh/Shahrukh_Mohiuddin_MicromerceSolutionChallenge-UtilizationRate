@@ -18,7 +18,9 @@ import type { SourceDataType, TableDataType } from "./types";
 
 const tableData: TableDataType[] = (sourceData as unknown as SourceDataType[]).map((dataRow, index) => {
   // Added last name so we know who we are looking at, if there's 3 shahrukhs, we can distinguish them by their last names (hopefully)
-  const person = `${dataRow?.employees?.firstname} ${dataRow?.employees?.lastname}`;
+
+  // Here, the data contains teams (which is not a person) as-well, we need to filter the data this means. 
+  const person = dataRow?.employees ? `${dataRow?.employees?.name}` : `${dataRow?.externals?.name}`;
   const pastTwelveMonths = `${dataRow?.employees?.workforceUtilisation?.utilisationRateLastTwelveMonths}`;
 
   /* Add serial number to know how many instances i have and which instance i am currently looking at.
