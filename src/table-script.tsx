@@ -17,16 +17,18 @@ import type { SourceDataType, TableDataType } from "./types";
  */
 
 const tableData: TableDataType[] = (sourceData as unknown as SourceDataType[]).map((dataRow, index) => {
-  const person = `${dataRow?.employees?.firstname} - ...`;
+  // Added last name so we know who we are looking at, if there's 3 shahrukhs, we can distinguish them by their last names (hopefully)
+  const person = `${dataRow?.employees?.firstname} ${dataRow?.employees?.lastname}`;
+  const pastTwelveMonths = `${dataRow?.employees?.workforceUtilisation?.utilisationRateLastTwelveMonths}`;
 
   /* Add serial number to know how many instances i have and which instance i am currently looking at.
    This also helps in sorting the instances asc/desc depending on how i want to look at the data/ show it to an interested party*/
-   
+
   const row: TableDataType = {
-    serialNumber: index+1,
+    serialNumber: index + 1,
     person: `${person}`,
     past12Months: `past12Months ${index} placeholder`,
-    y2d: `y2d ${index} placeholder`,
+    y2d: `y2d ${pastTwelveMonths} placeholder`,
     may: `may ${index} placeholder`,
     june: `june ${index} placeholder`,
     july: `july ${index} placeholder`,
