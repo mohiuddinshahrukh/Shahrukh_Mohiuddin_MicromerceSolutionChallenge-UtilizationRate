@@ -18,6 +18,7 @@ type CostsByMonth = {
   _applicationId: string;
   periods?: Period[];
   costsByMonth?: { costs: string; month: string }[];
+  potentialEarningsByMonth?: { costs: string; month: string }[];
   _updatedDate: string;
   _definitionId: string;
   _createdDate: string;
@@ -129,6 +130,7 @@ export type SourceDataType = {
 
 // Type for Table Column and Row Data
 export type TableDataType = {
+  person_status: string;
   serialNumber: number;
   person: string;
   past12Months: string;
