@@ -16,7 +16,7 @@ import formatCurrency from "../helpers/helperFunctions";
  * @prop {number} july - The value for July.
  * @prop {number} netEarningsPrevMonth - The net earnings for the previous month.
  */
-
+// Need to filter the data as the teams are not individual people.
 const filteredData = (sourceData as unknown as SourceDataType[]).filter((dataRow) => {
   if (!dataRow?.teams) {
     return true;
@@ -39,24 +39,32 @@ const tableData: TableDataType[] = filteredData.map((dataRow, index) => {
       : dataRow?.externals?.workforceUtilisation?.utilisationRateYearToDate
   }`;
 
+  const person_status = `${dataRow?.employees ? dataRow?.employees?.status : dataRow?.externals?.status}`;
+
   const costsArray =
     dataRow?.employees?.costsByMonth?.potentialEarningsByMonth ?? dataRow?.externals?.costsByMonth?.costsByMonth;
   const mayData = costsArray?.find((monthData) => monthData.month === "2025-05")?.costs ?? 0;
   const juneData = costsArray?.find((monthData) => monthData.month === "2025-06")?.costs ?? 0;
   const julyData = costsArray?.find((monthData) => monthData.month === "2025-07")?.costs ?? 0;
 
-  const person_status = `${dataRow?.employees ? dataRow?.employees?.status : dataRow?.externals?.status}`;
-
   // Net earnings = Total Revenue − Total Costs
-  const netEarningsPrevMonthRaw = `${costsArray?.[costsArray.length - 1].costs ?? 0}`;
+  const netEarnings =
+    dataRow?.employees?.workforceUtilisation?.monthlyCostDifference ??
+    dataRow?.externals?.workforceUtilisation?.monthlyCostDifference;
+  // Checking if external or not with !! operator
+  const isExternal = !!dataRow?.externals;
 
-  // Formatted data
+  // Checking if external then put a minus sign because externals means cost and not revenue.
+  const netEarningsPrevMonth = netEarnings
+    ? `${isExternal ? "-" : ""}${Math.abs(parseFloat(netEarnings)).toLocaleString("de-DE", {
+        style: "currency",
+        currency: "EUR",
+      })}`
+    : "N/A";
+
+  //Some formatted data
   const past12MonthsPercent = (parseFloat(pastTwelveMonths) * 100).toFixed(2) + " %";
   const ytdPercent = (parseFloat(yearToDate) * 100).toFixed(2) + " %";
-  const netEarningsPrevMonth = `${parseFloat(netEarningsPrevMonthRaw).toLocaleString("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  })}`;
 
   /* Add serial number to know how many instances i have and which instance i am currently looking at.
    This also helps in sorting the instances asc/desc depending on how i want to look at the data/ show it to an interested party*/
