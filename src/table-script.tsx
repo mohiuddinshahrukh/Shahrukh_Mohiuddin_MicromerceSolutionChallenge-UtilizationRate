@@ -102,44 +102,26 @@ const Example = () => {
       {
         accessorKey: "past12Months",
         header: "Past 12 Months",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
       {
         accessorKey: "y2d",
         header: "Y2D",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
       {
         accessorKey: "may",
         header: "May",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
       {
         accessorKey: "june",
         header: "June",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
       {
         accessorKey: "july",
         header: "July",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
       {
         accessorKey: "netEarningsPrevMonth",
         header: "Net Earnings Prev Month",
-        muiTableBodyCellProps: {
-          style: { textAlign: "right" },
-        },
       },
     ],
     []
@@ -147,6 +129,9 @@ const Example = () => {
 
   const table = useMaterialReactTable({
     columns,
+    layoutMode: "grid",
+    // columnResizeMode:"onChange",
+
     data: tableData,
   });
 
